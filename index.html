@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>请假管理系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- PWA 配置 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4D7CFE">
+</head>
+<body class="bg-gray-100 min-h-screen overflow-x-hidden">
+    <!-- 第一个页面：表单输入 -->
+    <div id="page-form" class="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg mt-10 mb-10">
+        <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">请假信息填写</h2>
+        <form id="leave-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">姓名</label>
+                <input type="text" id="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">请假类型</label>
+                <select id="leaveType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+                    <option value="病假">病假</option>
+                    <option value="事假">事假</option>
+                    <option value="其他">其他</option>
+                    <option value="节假日及寒暑假请假">节假日及寒暑假请假</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">开始时间</label>
+                <input type="datetime-local" id="startTime" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">结束时间</label>
+                <input type="datetime-local" id="endTime" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">请假理由</label>
+                <textarea id="reason" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">申请时间</label>
+                <input type="datetime-local" id="applyTime" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">导员名字</label>
+                <input type="text" id="counselorName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">审核通过时间</label>
+                <input type="datetime-local" id="approveTime" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
+            </div>
+            <button type="button" id="generate-btn" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300">生成</button>
+        </form>
+    </div>
+
+    <!-- 第二个页面：展示结果 (初始隐藏) -->
+    <div id="page-result" class="hidden h-screen flex flex-col bg-[#F6F7F9]">
+        <!-- 头部固定部分 -->
+        <div class="fixed top-0 left-0 right-0 z-50 bg-white">
+            <!-- 头部导航 -->
+            <header class="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+                <div class="flex items-center space-x-4">
+                    <button id="nav-back-arrow" class="p-1 -ml-1 hover:bg-gray-100 rounded-full transition-colors">
+                        <svg class="w-[25.3px] h-[25.3px] text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button id="nav-back-x" class="p-1 hover:bg-gray-100 rounded-full transition-colors">
+                        <svg class="w-[25.3px] h-[25.3px] text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <h1 class="text-[20.7px] font-medium absolute left-1/2 -translate-x-1/2">请假管理</h1>
+                <svg class="w-[25.3px] h-[25.3px] text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+            </header>
+
+            <!-- 面包屑 -->
+            <div class="bg-[#EFF3FD] px-4 py-2 text-[14.9px] text-gray-600 flex items-center">
+                <span class="text-[#4D7CFE] flex items-center">
+                    <!-- GPS 定位图标 -->
+                    <svg class="w-4 h-4 mr-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                    </svg>
+                    首页
+                </span>
+                <!-- 灰色箭头图标样式 (与原版 am-icon-md 一致，0.44rem = 25.3px) -->
+                <svg class="w-[25.3px] h-[25.3px] mx-1 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-black">请假管理</span>
+                <svg class="w-[25.3px] h-[25.3px] mx-1 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-black">请假管理</span>
+            </div>
+        </div>
+
+        <!-- 内容滚动部分 -->
+        <div id="scroll-content" class="flex-1 overflow-y-auto mt-[90px]">
+            <!-- 用户信息 -->
+            <div class="bg-white px-4 pt-6 pb-4 flex items-center mb-2">
+                <!-- 用户头像图片 -->
+                <img src="avatar.png" class="w-14 h-14 rounded-full mr-4 object-cover" alt="头像">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-[19.5px] font-bold"></span>
+                        <svg class="w-[17.2px] h-[17.2px] text-[#4D7CFE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="15" r="6"></circle>
+                            <line x1="14" y1="10" x2="21" y2="3"></line>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="text-gray-400 text-[16.1px]">|</div>
+                </div>
+            </div>
+
+            <!-- 请假信息 -->
+            <div class="bg-white p-4 relative mb-6"> <!-- 间距从 mb-4 增大到 mb-6 -->
+                <h2 class="text-[19.5px] font-bold flex items-center mb-2 before:content-[''] before:w-[3.45px] before:h-[23px] before:bg-blue-500 before:mr-2">请假信息</h2>
+
+                <!-- 已通过印章图片 -->
+                <div class="absolute top-4 right-6">
+                    <img src="stamp.png" class="w-[74.7px] h-[65.5px] opacity-80" alt="已通过印章">
+                </div>
+
+                <div class="space-y-1.5">
+                    <div class="info-row"><span class="info-label">请假类型：</span><span id="display-leaveType" class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">请假去向：</span><span class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">详细地址：</span><span class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">开始时间：</span><span id="display-startTime" class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">结束时间：</span><span id="display-endTime" class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">统计时长：</span><span class="info-value">天小时分钟</span></div>
+                    <div class="info-row"><span class="info-label">紧急联系人：</span><span class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">紧急联系人电话：</span><span class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">请假理由：</span><span id="display-reason" class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">请假状态：</span><span class="text-blue-500 info-value">审核通过</span></div>
+                    <div class="info-row"><span class="info-label">销假状态：</span><span class="info-value"></span></div>
+                    <div class="info-row"><span class="info-label">请假附件：</span><span class="info-value"></span></div>
+                    <div class="h-2"></div> <!-- 空行从 h-6 减小到 h-2 -->
+                </div>
+            </div>
+
+<!-- 办理进度（还原原网页 antd-mobile Steps 垂直步骤条实现，结构与类名取自原始代码） -->
+<div id="timeline-module" class="container___2I1fm">
+    <div class="header___BDU7V">
+        <div class="header_title___Rg5Zq">办理进度</div>
+    </div>
+    <div class="am-steps am-steps-vertical am-steps-small">
+        <!-- 步骤 1: 申请 -->
+        <div class="am-steps-item am-steps-item-finish am-steps-item-custom">
+            <div class="am-steps-item-tail"></div>
+            <div class="am-steps-item-icon">
+                <span class="am-steps-icon">
+                    <svg class="am-icon am-icon-check-circle-o am-icon-xs" viewBox="0 0 48 48"><g fill-rule="evenodd"><path d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24zm0-3c11.598 0 21-9.402 21-21S35.598 3 24 3 3 12.402 3 24s9.402 21 21 21z"></path><path d="M12.2 23.2L10 25.3l10 9.9L37.2 15 35 13 19.8 30.8z"></path></g></svg>
+                </span>
+            </div>
+            <div class="am-steps-item-content">
+                <div class="am-steps-item-title">
+                    <div class="step_header___2nUJN">
+                        <div class="step_title___3yKU2">申请<span style="color: rgb(50, 223, 114); margin-left: 8px; font-weight: 550;">申请</span></div>
+                        <div id="display-applyTime" class="step_time___1Qq-E"></div>
+                    </div>
+                </div>
+                <div class="am-steps-item-description">
+                    <div class="content___2vXvj">
+                        <div class="text_content___12qib">
+                            <div id="display-applyName" class="grayText___1PS9X"></div>
+                            <div class="statusText___2Hktr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤 2: 辅导员审核 -->
+        <div class="am-steps-item am-steps-item-finish am-steps-item-custom">
+            <div class="am-steps-item-tail"></div>
+            <div class="am-steps-item-icon">
+                <span class="am-steps-icon">
+                    <svg class="am-icon am-icon-check-circle-o am-icon-xs" viewBox="0 0 48 48"><g fill-rule="evenodd"><path d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24zm0-3c11.598 0 21-9.402 21-21S35.598 3 24 3 3 12.402 3 24s9.402 21 21 21z"></path><path d="M12.2 23.2L10 25.3l10 9.9L37.2 15 35 13 19.8 30.8z"></path></g></svg>
+                </span>
+            </div>
+            <div class="am-steps-item-content">
+                <div class="am-steps-item-title">
+                    <div class="step_header___2nUJN">
+                        <div class="step_title___3yKU2">辅导员审核<span style="color: rgb(50, 223, 114); margin-left: 8px; font-weight: 550;">审核通过</span></div>
+                        <div class="step_time___1Qq-E"><span id="display-approveTime"></span></div>
+                    </div>
+                </div>
+                <div class="am-steps-item-description">
+                    <div class="content___2vXvj">
+                        <div class="text_content___12qib">
+                            <div id="display-counselorName" class="grayText___1PS9X"></div>
+                            <div class="statusText___2Hktr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤 3: 结束 -->
+        <div class="am-steps-item am-steps-item-process am-steps-item-custom">
+            <div class="am-steps-item-tail"></div>
+            <div class="am-steps-item-icon">
+                <span class="am-steps-icon">
+                    <div class="last_step___4mg46"><span></span></div>
+                </span>
+            </div>
+            <div class="am-steps-item-content">
+                <div class="am-steps-item-title">
+                    <div class="step_header___2nUJN">
+                        <div class="step_title___3yKU2">结束<span style="color: rgb(50, 223, 114); margin-left: 8px; font-weight: 550;"></span></div>
+                        <div class="step_time___1Qq-E"></div>
+                    </div>
+                </div>
+                <div class="am-steps-item-description">
+                    <div class="content___2vXvj">
+                        <div class="text_content___12qib">
+                            <div class="grayText___1PS9X"></div>
+                            <div class="statusText___2Hktr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="h-20"></div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>

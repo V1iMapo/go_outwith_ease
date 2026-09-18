@@ -1,0 +1,191 @@
+/* 自定义样式，用于还原图片中的特定效果 */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #F6F7F9;
+    /* 禁止系统默认的弹性滚动 */
+    overscroll-behavior: none;
+}
+
+/* 面包屑中的图标微调 */
+.breadcrumb-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+/* 输入框聚焦样式 */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #3B82F6;
+    ring: 2px;
+    ring-color: #BFDBFE;
+}
+
+/* 页面切换动画 */
+#page-form, #page-result {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* 隐藏滚动条但保留滚动功能 */
+#scroll-content::-webkit-scrollbar {
+    display: none;
+}
+#scroll-content {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* 请假信息列表样式：缩小冒号间距 */
+.info-row {
+    display: flex;
+    font-size: 17.2px;
+    line-height: 34.5px;
+}
+
+.info-label {
+    color: #999999;
+    white-space: nowrap; /* 强制标签不换行 */
+}
+
+.info-value {
+    color: #333333;
+    word-break: break-all;
+    margin-left: 2px; /* 给冒号后内容留一点点自然的微小间距 */
+}
+
+/* ===== 办理进度：还原原网页 antd-mobile Steps 垂直步骤条 ===== */
+/* 结构与样式取自"新建文件夹 (2)"原始代码（vendors.91f4305a / umi.css），
+   原页面 rem 基准为 1rem = 57.4667px（html 内联 font-size），以下均已换算为 px */
+
+/* 模块容器与标题 */
+.container___2I1fm { padding: 13.8px 18.4px; margin-bottom: 18.4px; background-color: #fff; }
+
+.container___2I1fm .header___BDU7V { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 18.4px; }
+
+.container___2I1fm .header___BDU7V .header_title___Rg5Zq { display: flex; align-items: center; background-color: #fff; font-size: 16.1px; font-weight: 600; color: rgba(0, 0, 0, 0.85); }
+
+.container___2I1fm .header___BDU7V .header_title___Rg5Zq::before { content: ""; display: inline-block; width: 4.6px; height: 14.9px; margin-right: 9.2px; background-color: rgb(57, 126, 240); border-radius: 2.3px; }
+
+/* 每一步骤：标题行 / 时间 / 内容 */
+.container___2I1fm .step_header___2nUJN { display: flex; justify-content: space-between; align-items: center; }
+
+.container___2I1fm .step_header___2nUJN .step_title___3yKU2 { font-size: 14.9px; font-weight: 400; color: rgb(0, 0, 0); }
+
+.container___2I1fm .step_header___2nUJN .step_time___1Qq-E { font-size: 13.8px; font-weight: 400; color: rgb(153, 153, 153); }
+
+.container___2I1fm .content___2vXvj { margin: 9.2px 0 4.6px; }
+
+.container___2I1fm .content___2vXvj .text_content___12qib { display: flex; justify-content: space-between; }
+
+.container___2I1fm .content___2vXvj .text_content___12qib .grayText___1PS9X { font-size: 16.1px; font-weight: 400; color: rgb(153, 153, 153); }
+
+.container___2I1fm .content___2vXvj .text_content___12qib .statusText___2Hktr { font-size: 13.8px; color: rgb(57, 126, 240); font-weight: 400; max-width: 60%; text-align: right; word-break: break-all; }
+
+/* 结束节点：空心圆 + 中心蓝点 */
+.container___2I1fm .last_step___4mg46 { display: flex; justify-content: center; align-items: center; width: 18.4px; height: 18.4px; border: 1.15px solid rgb(57, 126, 240); border-radius: 50%; }
+
+.container___2I1fm .last_step___4mg46 > span { display: inline-block; width: 6.9px; height: 6.9px; background-color: rgb(57, 126, 240); border-radius: 50%; }
+
+/* 容器内 Steps 覆盖样式 */
+.container___2I1fm .am-steps-item-icon > .am-steps-icon { color: rgb(57, 126, 240); }
+
+.container___2I1fm .am-steps-item-icon { margin-top: 2.3px; }
+
+.container___2I1fm .am-steps-item-tail::after { background: rgb(57, 126, 240); }
+
+.container___2I1fm .am-steps-item-title { width: 100%; padding-right: 0; }
+
+/* antd-mobile Steps 基础样式 */
+.am-steps { font-size: 0; width: 100%; line-height: 1.5; display: flex; }
+
+.am-steps, .am-steps * { box-sizing: border-box; }
+
+.am-steps-item { position: relative; display: inline-block; vertical-align: top; flex: 1 1 0%; overflow: hidden; }
+
+.am-steps-item:last-child { flex: 0 0 auto; }
+
+.am-steps-item:last-child .am-steps-item-tail, .am-steps-item:last-child .am-steps-item-title::after { display: none; }
+
+.am-steps-item-content, .am-steps-item-icon { display: inline-block; vertical-align: top; }
+
+.am-steps-item-icon { border: 1.15px solid rgb(187, 187, 187); width: 25.3px; height: 25.3px; line-height: 25.3px; border-radius: 25.3px; text-align: center; font-size: 16.1px; margin-right: 9.2px; transition: background-color 0.3s, border-color 0.3s; }
+
+.am-steps-item-icon > .am-steps-icon { line-height: 1; top: -1.15px; color: rgb(57, 126, 240); position: relative; }
+
+.am-steps-item-icon > .am-steps-icon .am-icon { font-size: 13.8px; position: relative; float: left; }
+
+.am-steps-item-tail { position: absolute; left: 0; width: 100%; top: 13.8px; padding: 0 11.5px; }
+
+.am-steps-item-tail::after { content: ""; display: inline-block; background: rgb(221, 221, 221); height: 1.15px; border-radius: 1.15px; width: 100%; transition: background 0.3s; position: relative; left: -2.3px; }
+
+.am-steps-item-content { margin-top: 3.45px; }
+
+.am-steps-item-title { font-size: 18.4px; margin-bottom: 4.6px; color: rgb(0, 0, 0); font-weight: 700; display: inline-block; padding-right: 11.5px; position: relative; }
+
+.am-steps-item-description { font-size: 17.2px; color: rgb(187, 187, 187); }
+
+/* finish 状态：图标与连接线为蓝色 */
+.am-steps-item-finish .am-steps-item-icon { border-color: rgb(57, 126, 240); background-color: rgb(255, 255, 255); }
+
+.am-steps-item-finish .am-steps-item-icon > .am-steps-icon { color: rgb(57, 126, 240); }
+
+.am-steps-item-finish .am-steps-item-tail::after { background-color: rgb(57, 126, 240); }
+
+/* custom 图标：去掉默认圆圈边框 */
+.am-steps-item-custom .am-steps-item-icon { background: none; border: 0; width: auto; height: auto; }
+
+.am-steps-item-custom .am-steps-item-icon > .am-steps-icon { font-size: 25.3px; top: 1.15px; width: 25.3px; height: 25.3px; }
+
+.am-steps-item-custom.am-steps-item-process .am-steps-item-icon > .am-steps-icon { color: rgb(57, 126, 240); }
+
+/* 步骤图标 SVG */
+.am-icon { fill: currentColor; background-size: cover; width: 25.3px; height: 25.3px; }
+
+.am-icon-xs { width: 20.7px; height: 20.7px; }
+
+/* small 尺寸 */
+.am-steps-small .am-steps-item-icon { width: 20.7px; height: 20.7px; line-height: 20.7px; text-align: center; border-radius: 20.7px; font-size: 16.1px; margin-right: 9.2px; }
+
+.am-steps-small .am-steps-item-icon > .am-steps-icon { font-size: 13.8px; transform: scale(0.75); top: -2.3px; }
+
+.am-steps-small .am-steps-item-content { margin-top: 0; }
+
+.am-steps-small .am-steps-item-title { font-size: 18.4px; margin-bottom: 3.45px; color: rgb(0, 0, 0); font-weight: 700; }
+
+.am-steps-small .am-steps-item-description { font-size: 13.8px; color: rgb(187, 187, 187); }
+
+.am-steps-small .am-steps-item-tail { top: 9.2px; padding: 0 9.2px; }
+
+.am-steps-small .am-steps-item-tail::after { height: 1.15px; border-radius: 1.15px; width: 100%; left: 0; }
+
+.am-steps-small .am-steps-item-custom .am-steps-item-icon { background: none; }
+
+.am-steps-small .am-steps-item-custom .am-steps-item-icon > .am-steps-icon { font-size: 20.7px; top: -2.3px; transform: none; }
+
+/* 垂直模式：左侧竖向连接线 */
+.am-steps-vertical { display: block; }
+
+.am-steps-vertical .am-steps-item { display: block; overflow: visible; }
+
+.am-steps-vertical .am-steps-item-icon { float: left; }
+
+.am-steps-vertical .am-steps-item-content { min-height: 55.2px; overflow: hidden; display: block; }
+
+.am-steps-vertical .am-steps-item-title { line-height: 29.9px; }
+
+.am-steps-vertical .am-steps-item-title::after { display: none; }
+
+.am-steps-vertical .am-steps-item-description { padding-bottom: 13.8px; }
+
+.am-steps-vertical .am-steps-item-tail { position: absolute; left: 14.9px; top: 0; height: 100%; width: 1.15px; padding: 34.5px 0 4.6px; }
+
+.am-steps-vertical .am-steps-item-tail::after { height: 100%; width: 1.15px; }
+
+.am-steps-vertical.am-steps-small .am-steps-item-tail { position: absolute; left: 10.3px; top: 0; padding: 25.3px 0 4.6px; }
+
+.am-steps-vertical.am-steps-small .am-steps-item-title { line-height: 20.7px; }
