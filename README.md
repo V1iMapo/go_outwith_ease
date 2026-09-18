@@ -1,1 +1,1 @@
-# go_outwith_ease
+本代码修改自https://github.com/chino100001/qingjia233 chino100001的qingjia123库，原先代码图片过糊进行了替换，请假进度进度条板块原先代码采用直接拉取图片展示进度条，该版本进行了修改，改用原网页的 DOM 结构和类名，结构上CSS/SVG 绘制的垂直步骤条，不再依赖手拼的 flex 轴线，结构节点、对勾图标和竖向连接线全部由 CSS 绘制
